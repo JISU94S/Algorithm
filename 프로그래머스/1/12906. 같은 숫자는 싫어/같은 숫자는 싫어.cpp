@@ -1,16 +1,30 @@
 #include <vector>
 #include <iostream>
+#include <stack>
 
 using namespace std;
 
 vector<int> solution(vector<int> arr) 
 {
-    vector<int> answer;
-    answer.push_back(arr[0]);
+    stack<int> answer;
+    
+    
+    answer.push(arr[0]);
     for(int i = 1; i < arr.size(); i++){
-        answer.push_back(arr[i]);
-        if(arr[i-1] == arr[i])
-            answer.pop_back();
+        //answer.push(arr[i]);
+        
+        if(answer.top() != arr[i]){
+            //answer.pop();
+            answer.push(arr[i]);
+        }
     }
-    return answer;
+    
+    vector<int> vec(answer.size());
+    for ( int i = vec.size() - 1; i >= 0; i--)
+    {
+        vec[i] = answer.top();
+        answer.pop();
+    }
+    
+    return vec;
 }
