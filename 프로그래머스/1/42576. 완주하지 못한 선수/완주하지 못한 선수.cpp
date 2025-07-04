@@ -1,18 +1,24 @@
 #include <string>
 #include <vector>
-#include <algorithm>
+#include <unordered_map>
 
 using namespace std;
 
 string solution(vector<string> participant, vector<string> completion) {
-    sort(participant.begin(), participant.end());
-    sort(completion.begin(), completion.end());
+    unordered_map<string, int> participant_map;
     
-    for(int i = 0; i < completion.size(); i++){
-        if(participant[i] != completion[i]){
-            return participant[i];
-        }
+    for(const string& p : participant){
+        participant_map[p]++;
     }
     
-    return participant.back();
+    for(const string& c : completion){
+        participant_map[c]--;
+    }
+    
+    for(auto const& [name, count] : participant_map){
+        if(count > 0){
+            return name;
+        }
+    }
+    return "";
 }
